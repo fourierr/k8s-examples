@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/.idea/proj_test.iml" filepath="$PROJECT_DIR$/.idea/proj_test.iml" />
-=======
       <module fileurl="file://$PROJECT_DIR$/../k8s-examples/.idea/k8s-examples.iml" filepath="$PROJECT_DIR$/../k8s-examples/.idea/k8s-examples.iml" />
->>>>>>> b8ebdc7fc052f9fedaf2a234b7ad7244e126be74
     </modules>
   </component>
 </project>
