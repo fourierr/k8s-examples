@@ -1,0 +1,39 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: app-pressure-{{ .Env.APP_ID }}
+spec:
+  components:
+    - name: app-pressure-comp-{{ .Env.APP_ID }}
+      type: webservice
+      properties:
+        image: crccheck/hello-world
+        port: 8000
+      traits:
+        - type: tolerate-hollow-node
+        - type: resource
+          properties:
+            replicas: 2
+            request:
+              cpu: "0.2"
+              memory: "200Mi"
+            limit:
+              cpu: "0.1"
+              memory: "100Mi"
+        - type: route
+          properties:
+            domains:
+              - domain: app-pressure-comp-{{ .Env.APP_ID }}.paas.cmbchina.cn
+                targetPort: "8081"
+        - type: config
+          properties:
+            refConfigs:
+              - uuid: a67dgs8js9sues
+                revisionHash: caf887b241e258af678sbhajna88
+        - type: annotations
+          properties:
+            pressure-test-description: A simple but complete app.
+            pressure-test-id: "{{ .Env.APP_ID }}"
+        - type: labels
+          properties:
+            pressure-test: sae

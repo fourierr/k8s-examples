@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build app-controller" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+    <module name="k8s-examples" />
+    <target name="WSL - Ubuntu-18.04" />
+    <working_directory value="$PROJECT_DIR$/client-go/practice05-sample-controller/app-controller" />
+    <parameters value="--kubeconfig=/mnt/f/vela/config --masterURL=127.0.0.1:6443" />
+    <envs>
+      <env name="KUBECONFIG" value="/mnt/f/vela/config" />
+    </envs>
+    <kind value="PACKAGE" />
+    <package value="app-controller" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/client-go/practice05-sample-controller/app-controller/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

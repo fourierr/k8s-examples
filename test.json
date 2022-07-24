@@ -1,0 +1,20 @@
+{
+"enable": true,
+"rules": [
+{
+"selector": {
+"componentNames": [
+"fourierapp03-comp-01"
+],
+"resourceTypes": [
+"Deployment"
+],
+"strategy": {
+"path": [
+"spec.replicas"
+]
+}
+}
+}
+]
+}

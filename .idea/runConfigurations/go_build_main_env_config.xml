@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build main_env_config" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="k8s-examples" />
+    <working_directory value="$PROJECT_DIR$" />
+    <envs>
+      <env name="MNG_CLUSTER_API_SERVER" value="abc,def" />
+    </envs>
+    <kind value="FILE" />
+    <package value="proj_test" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/main_env_config.go" />
+    <method v="2" />
+  </configuration>
+</component>

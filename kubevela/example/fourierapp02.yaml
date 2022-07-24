@@ -1,0 +1,46 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: fourierapp02
+  namespace: fourier
+spec:
+  components:
+    - name: fourierapp02-fouriercomponent-01
+      type: webservice
+      dependsOn:
+        - fourierapp02-fouriercomponent-02
+      properties:
+        image: busybox:latest
+        imagePullPolicy: IfNotPresent
+        cmd: ["sleep", "1000000000"]
+        cpu: "0.1"
+        mem: "100Mi"
+      traits:
+        - type: scaler
+          properties:
+            replicas: 1
+        - type: hpa
+          properties:
+            config:
+              - name: fourierapp02-fouriercomponent-01
+              - name: fourierapp02-fouriercomponent-02
+
+    - name: fourierapp02-fouriercomponent-02
+      type: webservice
+      properties:
+        image: busybox:latest
+        imagePullPolicy: IfNotPresent
+        cmd: [ "sleep", "1000000000" ]
+        cpu: "0.1"
+        mem: "100Mi"
+      traits:
+        - type: scaler
+          properties:
+            replicas: 1
+        - type: storage
+          properties:
+            configMap:
+              - name: fourierapp02-fouriercomponent-02-cm
+                mountPath: /test/mount/cm
+                data:
+                  key02: value02

@@ -1,0 +1,24 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: pyroscope-app
+  namespace: fourier
+spec:
+  components:
+    - name: pyroscope-comp-01
+      type: webservice
+      properties:
+        image: nginx:latest
+        ports:
+          - expose: true
+            port: 80
+            protocol: TCP
+        imagePullPolicy: IfNotPresent
+      traits:
+        - type: pyroscope
+          properties:
+            server: "http://pyroscope-server:9084"
+            logger: "pyroscope.StandardLogger"
+        - type: scaler
+          properties:
+            replicas: 1

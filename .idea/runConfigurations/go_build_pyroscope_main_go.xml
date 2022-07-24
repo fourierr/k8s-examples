@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build pyroscope/main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="k8s-examples" />
+    <target name="WSL - Ubuntu-18.04" />
+    <working_directory value="$PROJECT_DIR$" />
+    <envs>
+      <env name="KUBECONFIG" value="/mnt/f/vela/config" />
+      <env name="PYROSCOPE_SERVER_ADDRESS" value="http://127.0.0.1:8083" />
+    </envs>
+    <kind value="FILE" />
+    <package value="proj_test/pyroscope" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/pyroscope/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

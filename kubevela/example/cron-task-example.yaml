@@ -1,0 +1,22 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: fourierapp18
+  namespace: za20-21-dev
+spec:
+  components:
+    - name: fourierapp18-fouriercomponent-01
+      type: cron-task
+      properties:
+        image: csbase.registry.cmbchina.cn/console/proj_gin_test:v2
+        count: 2
+        cmd: [ "echo", "hello" ]
+        schedule: "*/1 * * * *"
+        startingDeadlineSeconds: 60
+        successfulJobsHistoryLimit: 3
+        labels:
+          aaa: "bbb"
+      traits:
+        - type: scaler
+          properties:
+            replicas: 1

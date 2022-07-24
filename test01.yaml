@@ -1,0 +1,25 @@
+apiVersion: core.oam.dev/v1beta1
+kind: ResourceTracker
+metadata:
+  creationTimestamp: "2022-04-03T12:28:27Z"
+  finalizers:
+    - resourcetracker.core.oam.dev/finalizer
+  generation: 3
+  labels:
+    app.oam.dev/appRevision: fourierapp02-v1
+    app.oam.dev/name: fourierapp02
+    app.oam.dev/namespace: fourier
+    app.oam.dev/uid: 220b771f-59a6-4898-b357-dd7109e12c57
+  name: fourierapp02-comp-rev-fourier
+  resourceVersion: "1393909"
+  uid: 2a4f9d2f-c1d4-4452-95cf-6fd96649e0a0
+spec:
+  applicationGeneration: 0
+  managedResources:
+    - component: fourierapp02-fouriercomponent-02
+      name: fourierapp02-fouriercomponent-02-v1
+      namespace: fourier
+    - component: fourierapp02-fouriercomponent-01
+      name: fourierapp02-fouriercomponent-01-v1
+      namespace: fourier
+  type: component-revision

@@ -1,0 +1,18 @@
+**KubeVela**
+- apis: CRD定义及常量定义
+- charts: helm的charts安装包
+- cmd: 启动目录
+- docs: api文档和app的例子
+- e2e: e2e测试
+- hack: make命令执行的shell脚本
+- legacy: 遗留问题支持
+- makefiles: make文件
+- pkg
+  - aaa 
+  - bbb
+- reference
+  - aaa
+  - bbb
+- runtime: 只有rollout
+- test: 更详细的e2e测试
+- vela-template: 内置comp、trait等的cue文件
