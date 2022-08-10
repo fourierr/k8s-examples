@@ -1,97 +1,139 @@
+```yaml
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  labels:
+    project: lt31.04
+  name: lt31-04-fourierapp01-dev-dev
+  namespace: lt31-04-dev
+spec:
+  components:
+    - name: fourierapp01-55259
+      properties:
+        componentEnv:
+          clusterType: COMMON-APP
+          netRegion: OA
+        env:
+          - name: CMB_CAAS_DEPLOYUNITID
+            value: LT31.04_fourierapp01
+          - name: CMB_CAAS_NAMESPACE
+            value: lt31-04-dev-default
+          - name: CMB_CAAS_APPLICATION
+            value: fourierapp01-55259
+          - name: CMB_CAAS_SERVICEUNITID
+            value: LT31.04@fourierapp01_DEV_DEV
+          - name: CMB_PAAS_ENV
+            value: DEV
+          - name: CMB_CAAS_PROJECT
+            value: lt31.04
+          - name: CMB_CLUSTER
+            value: csdev-biz-06-qh
+        image: csdev.registry.cmbchina.cn/lt31.04/fourierapp01:pl227952-1
+        labels:
+          app.alauda.io/name: fourierapp01-55259.lt31-04-dev-default
+          cmb: lt31.04
+          cmb-app-name: fourierapp01-55259
+          cmb-log-tag: lt31-04-dev-default-Deployment-fourierapp01-55259
+          cmb-org: lt31.04
+          cmb-service-unit-id: LT31.04...fourierapp01_DEV_DEV
+        matchLabels:
+          app.alauda.io/name: fourierapp01-55259.lt31-04-dev-default
+        namespace: lt31-04-dev-default-federation-csdev-biz-06
+        ports:
+          - port: 8080
+      traits:
+        # 资源规格和弹性配置
+        - properties:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            replicas: 2
+            requests:
+              cpu: 100m
+              memory: "357913941"
+          type: resources
+        # 外部路由和内部路由，以及域名
+        - properties:
+            domains:
+              - domain: fourier01.paas.cmbchina.cn
+                path: ""
+                targetPort: "8080"
+          type: route
+        # java框架相关
+        - properties:
+            basePath: /actuator
+            port: 10999
+            types:
+              - jvm
+              - beeenv
+          type: metrics
+        - properties:
+            url: /bee-scheduler-admin/index.html
+          type: za21scheduler
+        # labels 和 annos
+        - properties:
+            annotations:
+              owners.alauda.io/info: '[{"name":"马祥博","phone":"17854227913","employee_id":"80310624@itc"}]'
+            labels:
+              app.alauda.io/name: fourierapp01-55259.lt31-04-dev-default
+              cmb-app-name: fourierapp01-55259
+              cmb-service-unit-id: LT31.04...fourierapp01_DEV_DEV
+            matchLabels: null
+          type: labels
+        # 探针
+        - properties:
+            livenessProbe:
+              failureThreshold: 3
+              httpGet:
+                path: /liveness
+                port: 8080
+                scheme: HTTP
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              successThreshold: 1
+              timeoutSeconds: 5
+            readinessProbe:
+              failureThreshold: 3
+              httpGet:
+                path: /readiness
+                port: 8080
+                scheme: HTTP
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              successThreshold: 1
+              timeoutSeconds: 5
+          type: health-probe
+        # 用户环境变量和配置
+        - properties:
+            envs:
+              - name: JAVA-OPTS
+                public: false
+                value: "-Xss664K -Xms1296588K -XX:MetaspaceSize=199475K -Xmx1296588K -XX:MaxMetaspaceSize=199475K"
+            refConfigs:
+              - mountPath: /opt/test
+                revisionHash: 077789d0b2319b8b45c7f3b2988b10dd
+                uuid: 96293f752c4ebe0c
+            restartTime: "2022-07-26T07:28:05.279075983Z"
+          type: config
+      type: webservice
+  policies:
+    - name: fourierapp01-55259
+      properties:
+        clusters:
+          - csdev-biz-06-qh
+          - csdev-biz-06-sk
+        namespace: lt31-04-dev-default
+      type: topology
+  workflow:
+    steps:
+      - name: lt31-04-fourierapp01-dev-dev
+        subSteps:
+          - name: fourierapp01-55259
+            properties:
+              component: fourierapp01-55259
+              topologyPolicies:
+                - fourierapp01-55259
+            type: deploy-cmb-upcase
+        type: step-group
 
-## Code Map
-### /apis 
-Package apis contains all api types of KubeVela.
-
-#### /apis/core.oam.dev
-Package core.oam.dev contains API Schema definitions for the core.oam.dev API group.
-
-#### /apis/standard.oam.dev
-Package standard.oam.dev contains API Schema definitions for the standard.oam.dev API group.
-
-#### /apis/types
-Package types contains auxiliary definitions for the API group.
-
-### /charts
-Used as a Helm Chart.
-
-### /cmd
-Place for initialization code.
-
-#### /cmd/apiserver
-Place for `vela-apiserver` initialization code.
-
-#### /cmd/core
-Place for `vela-core` initialization code.
-
-#### /cmd/plugin
-Place for command line interface `vela` initialization code.
-
-### /contribute
-Place for Contributor / Developer guide.
-
-### /design
-The design for api, platform, vela-cli and vela-core.
-
-### /docs
-Place for api docs and examples of feature.
-
-### /e2e and /test
-Code that does the e2e-tests.
-
-### /makefiles
-Used as a collection of shortcuts, e.g `make build` or `make reviewable`
-
-### /pkg
-Main place for the go code.
-
-#### /pkg/addon
-Addon related code.
-
-#### /pkg/apiserver
-`vela-apiserver` related code.
-
-#### /pkg/appfile
-Code for appfile that is an important go structure of `vela-core`.
-
-#### /pkg/auth
-The authorization for KubeVela.
-
-#### /pkg/client
-The client for controller_client and delegating_client.
-
-#### /pkg/controller
-Custom resource controllers for core.oam.dev and standard.oam.dev API group.
-
-#### /pkg/cue
-Cue file related code, contains validation and generation etc.
-
-#### /pkg/monitor
-It contains a context that supports fork and commit like trace span.
-
-#### /pkg/multicluster
-Code for multiple cluster delivery.
-
-#### /pkg/policy
-Policy related code, contains topology, override and envbinding.
-
-#### /pkg/resourcekeeper
-ResourceKeeper handler for dispatching、 deleting resources and keeping resources up-to-date.
-
-#### /pkg/stdlib
-The lib for cue operators.
-
-#### /pkg/utils
-Common utils for KubeVela.
-
-#### /pkg/velaql
-Place for VelaQL. It is a resource query language for KubeVela, used to query status of any extended resources in application-level.
-
-#### /pkg/workflow
-Code for workflow.
-
-### /references
-Place for `vela-cli` reference implementation.
-
-### /vela-templates
-This is the place for hold built-in CUE templates for Vela Core and Registry.
+```

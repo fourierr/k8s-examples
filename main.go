@@ -16,12 +16,14 @@ import (
 	"k8s.io/api/batch/v1beta1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
 	compbasemetrics "k8s.io/component-base/metrics"
 	"k8s.io/component-base/metrics/legacyregistry"
+	"k8s.io/klog/v2"
 	"net/http"
 	"sigs.k8s.io/yaml"
 	"strconv"
@@ -105,6 +107,15 @@ func RecordProxiedRequestsByCluster(cluster string, code int) {
 const json2 = `{"envs":[{"JAVA-OPTS":"xmx"}, {"CMB_LOGGING": "xms"}],"age":47}`
 
 func main() {
+
+	// 测试 apimachinery 的周期内重试
+	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)
+	defer cancel()
+	wait.Until(func() {
+		klog.Infof("retry")
+	}, 10*time.Second, ctx.Done())
+	klog.Infof("retry over")
 
 	// 测试gjson和sjson
 	array := gjson.Parse(json2).Get("envs").Array()
