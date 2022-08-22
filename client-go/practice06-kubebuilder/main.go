@@ -81,6 +81,7 @@ func main() {
 		}
 		options.CertDir = path + "/certs"
 	}
+
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), options)
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")

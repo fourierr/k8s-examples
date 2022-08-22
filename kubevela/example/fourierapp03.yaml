@@ -3,10 +3,11 @@ kind: Application
 metadata:
   name: fourierapp03
   namespace: fourier
+  labels:
+    app.oam.dev/sharding: sharding-1
 spec:
   components:
     - name: fourierapp03-comp-01
-#    - name: fourierapp03-comp-01..
       type: webservice
       properties:
         image: nginx:latest
@@ -36,26 +37,16 @@ spec:
     steps:
       - name: fourierapp03-deploy-01
         type: deploy
-#        失败重试
-#        retry:
-#          times: 5
-#          interval: "50"
+        #        失败重试
+        #        retry:
+        #          times: 5
+        #          interval: "50"
         properties:
           policies: [ "fourierapp03-comp-01" ]
       - name: fourierapp03-deploy-02
         type: deploy
-#        retry:
-#          times: 3
-#          interval: "30"
+        #        retry:
+        #          times: 3
+        #          interval: "30"
         properties:
           policies: [ "fourierapp03-comp-02" ]
-
-#  workflow:
-#    steps:
-#      - name: step-group
-#        type: step-group
-#        subSteps:
-#          - name: fourierapp03-deploy-01
-#            type: deploy
-#            properties:
-#              policies: [ "fourierapp03-comp-01" ]

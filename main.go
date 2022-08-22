@@ -12,6 +12,7 @@ import (
 	"github.com/spf13/cast"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	v1beta12 "k8s.io/api/admissionregistration/v1beta1"
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/api/batch/v1beta1"
 	v1 "k8s.io/api/core/v1"
@@ -107,7 +108,7 @@ func RecordProxiedRequestsByCluster(cluster string, code int) {
 const json2 = `{"envs":[{"JAVA-OPTS":"xmx"}, {"CMB_LOGGING": "xms"}],"age":47}`
 
 func main() {
-
+	_ = v1beta12.ValidatingWebhookConfiguration{}
 	// 测试 apimachinery 的周期内重试
 	ctx := context.Background()
 	ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)

@@ -2,7 +2,9 @@ apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
   name: fourierapp04
-  namespace: velero
+  namespace: fourier
+  labels:
+    app.oam.dev/sharding: sharding-2
 spec:
   components:
     - name: fourierapp04-comp-01
