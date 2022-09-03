@@ -16,6 +16,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/api/batch/v1beta1"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/api/flowcontrol/v1alpha1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/informers"
@@ -107,8 +108,10 @@ func RecordProxiedRequestsByCluster(cluster string, code int) {
 
 const json2 = `{"envs":[{"JAVA-OPTS":"xmx"}, {"CMB_LOGGING": "xms"}],"age":47}`
 
+var err error
+
 func main() {
-	_ = v1beta12.ValidatingWebhookConfiguration{}
+
 	// 测试 apimachinery 的周期内重试
 	ctx := context.Background()
 	ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)
@@ -204,6 +207,9 @@ func main() {
 	_ = appsv1.Deployment{}
 	_ = v1.ConfigMap{}
 	_ = v1beta1.CronJob{}
+	_ = v1alpha1.FlowSchema{}
+	_ = v1alpha1.PriorityLevelConfiguration{}
+	_ = v1beta12.ValidatingWebhookConfiguration{}
 	color := ""
 	time.Sleep(100 * time.Minute)
 	prompt := &survey.Select{

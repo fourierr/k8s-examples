@@ -33,6 +33,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
+
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	// 3、new一个factory, informer watch apiserver,每隔 10 分钟 resync 一次(list)
