@@ -10,6 +10,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/types"
 	util_runtime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/kubernetes"
@@ -126,19 +127,22 @@ func main() {
 		return
 	}
 
-	// 7、NamespacedClient
-	//client.NewNamespacedClient()
+	// 7、ctrl NamespacedClient, 没有informer, 所有请求都使用相同的ns
+	namespacedDeploy := new(appsv1.Deployment)
+	err = client.NewNamespacedClient(ctrlClient, "vela-system").Get(context.TODO(), types.NamespacedName{Name: "kubevela-vela-core"}, namespacedDeploy)
+	if err != nil {
+		return
+	}
+	fmt.Println(namespacedDeploy)
 
-	// 8、NewDelegatingClient
-
-	// Scheme defines methods for serializing and deserializing API objects, a type
-	// registry for converting group, version, and kind information to and from Go
-	// schemas, and mappings between Go schemas of different versions. A scheme is the
-	// foundation for a versioned API and versioned configuration over time.
+	// 8、ctrl NewDelegatingClient, 主动声明informer, get和list会走informer, update走k8s apiserver
+	defer util_runtime.HandleCrash()
+	informerCacheCtx, informerCacheCancel := context.WithCancel(context.Background())
+	// GVK和资源go types的对应关系，资源的默认值函数，资源版本转换函数，资源的标签转换等等全部由 schema 维护
 	k8sScheme := runtime.NewScheme()
 	_ = scheme.AddToScheme(k8sScheme)
 	_ = crdv1.AddToScheme(k8sScheme)
-	// MapperProvider provides the rest mapper used to map go types to Kubernetes APIs
+	// go types 和 k8s api的对印关系由 restmapper维护
 	mapper, err := apiutil.NewDiscoveryRESTMapper(config)
 	if err != nil {
 		return
@@ -148,23 +152,21 @@ func main() {
 	if err != nil {
 		return
 	}
-
 	uncachedObjects := []client.Object{&corev1.ConfigMap{}, &corev1.Service{}}
-	delegatingClient, err := client.NewDelegatingClient(client.NewDelegatingClientInput{
+	delegatingClient, delegatingClientErr := client.NewDelegatingClient(client.NewDelegatingClientInput{
 		CacheReader:     informerCache,
 		Client:          ctrlClient,
 		UncachedObjects: uncachedObjects,
 	})
-	if err != nil {
+	if delegatingClientErr != nil {
 		return
 	}
-	// 启动 informer，list & watch
-	defer util_runtime.HandleCrash()
-	informerCacheCtx, informerCacheCancel := context.WithCancel(context.Background())
+
 	go func(ctx context.Context) {
 		defer util_runtime.HandleCrash()
 		go informerCache.Start(informerCacheCtx)
 	}(informerCacheCtx)
+
 label:
 	waitForCacheSync := informerCache.WaitForCacheSync(context.TODO())
 	if waitForCacheSync {
@@ -174,6 +176,7 @@ label:
 			return
 		}
 		informerCacheCancel()
+		fmt.Println(delegatingDeploy)
 	} else {
 		goto label
 	}
