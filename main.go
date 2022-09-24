@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
+	"github.com/dustin/go-humanize"
 	"github.com/pkg/errors"
 	"github.com/robfig/cron/v3"
 	"github.com/spf13/cast"
@@ -17,6 +18,7 @@ import (
 	"k8s.io/api/batch/v1beta1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/api/flowcontrol/v1alpha1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/informers"
@@ -111,6 +113,25 @@ const json2 = `{"envs":[{"JAVA-OPTS":"xmx"}, {"CMB_LOGGING": "xms"}],"age":47}`
 var err error
 
 func main() {
+
+	// MB  MiB 转 B
+	bytes := humanize.Bytes(82854982)
+	iBytes := humanize.IBytes(82854982)
+	parseBytes, err := humanize.ParseBytes("79Mi")
+	if err != nil {
+		return
+	}
+	parseBytesB, err := humanize.ParseBytes("79MiB")
+	fmt.Println(bytes)
+	fmt.Println(iBytes)
+	fmt.Println(parseBytes)
+	fmt.Println(parseBytesB)
+	parseQuantity, err := resource.ParseQuantity("79Mi")
+	if err != nil {
+		return
+	}
+	s := parseQuantity.Value()
+	fmt.Println(s)
 
 	// 测试 apimachinery 的周期内重试
 	ctx := context.Background()
