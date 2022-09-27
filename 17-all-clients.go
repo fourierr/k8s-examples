@@ -3,8 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	apiConfig "github.com/oam-dev/kubevela/pkg/apiserver/config"
-	"github.com/oam-dev/kubevela/pkg/apiserver/infrastructure/clients"
+	//"github.com/oam-dev/kubevela/pkg/apiserver/infrastructure/clients"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	crdv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -183,23 +182,23 @@ label:
 	}
 
 	// 9、vela client, 可以通过clustergateway 访问到子集群
-	err = clients.SetKubeConfig(apiConfig.Config{
-		KubeQPS:   50,
-		KubeBurst: 300,
-	})
-	if err != nil {
-		return
-	}
-	// 在secretMultiClusterRoundTripper.RoundTrip对req.URL.Path做了修改
-	velaClient, err := clients.GetKubeClient()
-	if err != nil {
-		return
-	}
-	remoteCtx := context.WithValue(context.Background(), "ClusterName", "cluster01")
-	velaDeploy := new(appsv1.Deployment)
-	err = velaClient.Get(remoteCtx, client.ObjectKey{Namespace: "vela-system", Name: "kubevela-vela-core"}, velaDeploy)
-	if err != nil {
-		return
-	}
-	fmt.Println(velaDeploy)
+	//err = clients.SetKubeConfig(apiConfig.Config{
+	//	KubeQPS:   50,
+	//	KubeBurst: 300,
+	//})
+	//if err != nil {
+	//	return
+	//}
+	//// 在secretMultiClusterRoundTripper.RoundTrip对req.URL.Path做了修改
+	//velaClient, err := clients.GetKubeClient()
+	//if err != nil {
+	//	return
+	//}
+	//remoteCtx := context.WithValue(context.Background(), "ClusterName", "cluster01")
+	//velaDeploy := new(appsv1.Deployment)
+	//err = velaClient.Get(remoteCtx, client.ObjectKey{Namespace: "vela-system", Name: "kubevela-vela-core"}, velaDeploy)
+	//if err != nil {
+	//	return
+	//}
+	//fmt.Println(velaDeploy)
 }

@@ -117,10 +117,12 @@ func main() {
 	// MB  MiB 转 B
 	bytes := humanize.Bytes(82854982)
 	iBytes := humanize.IBytes(82854982)
-	parseBytes, err := humanize.ParseBytes("79Mi")
+	parseBytes, err := humanize.ParseBytes("79G")
 	if err != nil {
 		return
 	}
+	iBytes = humanize.IBytes(parseBytes)
+
 	parseBytesB, err := humanize.ParseBytes("79MiB")
 	fmt.Println(bytes)
 	fmt.Println(iBytes)
