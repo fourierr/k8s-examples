@@ -110,7 +110,7 @@ func main() {
 		Group:   appsv1.GroupName,
 		Version: appsv1.SchemeGroupVersion.Version,
 		Kind:    "Deployment"})
-	err = ctrlClient.Get(context.TODO(), client.ObjectKey{Namespace: "vela-system", Name: "kubevela-vela-core"}, unDeployy)
+	err = ctrlClient.Get(context.TODO(), client.ObjectKeyFromObject(unDeployy), unDeployy)
 	if err != nil {
 		return
 	}
