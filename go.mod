@@ -5,6 +5,7 @@ go 1.17
 require (
 	cuelang.org/go v0.2.2
 	github.com/google/uuid v1.3.0
+	github.com/kyokomi/emoji v2.2.4+incompatible
 	github.com/oam-dev/kubevela v1.5.6
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.8.1
