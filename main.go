@@ -114,6 +114,12 @@ var err error
 
 func main() {
 
+	parseBytes1, err := humanize.ParseBytes("79G")
+	parseBytes2, err := humanize.ParseBytes("78G")
+	if parseBytes1 > parseBytes2 {
+		fmt.Println("111")
+	}
+
 	time.Now()
 
 	// MB  MiB 转 B

@@ -15,6 +15,19 @@
           </config>
         </ContributedStateBase>
       </target>
+      <target name="WSL - Ubuntu-18.042" type="wsl" uuid="9727901d-b87e-4aef-b5d3-18bdd8545a39">
+        <config>
+          <option name="distributionMsId" value="Ubuntu-18.04" />
+          <option name="projectRootOnTarget" value="/mnt/d/GoLand/GoLand 2021.3.3/jbr/bin&#10;/k8s-examples" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goPath" value="/home/fourier/go" />
+            <option name="goRoot" value="/mnt/f/vela/go1.18.5/bin/go" />
+            <option name="goVersion" value="go1.18.5 linux/amd64" />
+          </config>
+        </ContributedStateBase>
+      </target>
     </targets>
   </component>
 </project>
