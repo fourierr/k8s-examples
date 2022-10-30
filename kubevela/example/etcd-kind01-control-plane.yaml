@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubeadm.kubernetes.io/etcd.advertise-client-urls: https://172.18.0.2:2379
+    kubernetes.io/config.hash: 1a0ae3daedd1d2592a3062bf9a27e756
+    kubernetes.io/config.mirror: 1a0ae3daedd1d2592a3062bf9a27e756
+    kubernetes.io/config.seen: "2022-10-30T07:12:41.976812100Z"
+    kubernetes.io/config.source: file
+  creationTimestamp: "2022-10-30T07:12:42Z"
+  labels:
+    component: etcd
+    tier: control-plane
+  name: etcd-kind01-control-plane
+  namespace: kube-system
+  ownerReferences:
+  - apiVersion: v1
+    controller: true
+    kind: Node
+    name: kind01-control-plane
+    uid: a6dd043f-85a5-46ce-8969-abb3d3f52590
+  resourceVersion: "40526"
+  uid: 570a02aa-0a44-4897-bd77-410076e4b1cc
+spec:
+  containers:
+  - command:
+    - etcd
+    - --advertise-client-urls=https://172.18.0.2:2379
+    - --cert-file=/etc/kubernetes/pki/etcd/server.crt
+    - --client-cert-auth=true
+    - --data-dir=/var/lib/etcd
+    - --initial-advertise-peer-urls=https://172.18.0.2:2380
+    - --initial-cluster=kind01-control-plane=https://172.18.0.2:2380
+    - --key-file=/etc/kubernetes/pki/etcd/server.key
+    - --listen-client-urls=https://127.0.0.1:2379,https://172.18.0.2:2379
+    - --listen-metrics-urls=http://127.0.0.1:2381
+    - --listen-peer-urls=https://172.18.0.2:2380
+    - --name=kind01-control-plane
+    - --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt
+    - --peer-client-cert-auth=true
+    - --peer-key-file=/etc/kubernetes/pki/etcd/peer.key
+    - --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+    - --snapshot-count=10000
+    - --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+    image: k8s.gcr.io/etcd:3.4.13-0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 8
+      httpGet:
+        host: 127.0.0.1
+        path: /health
+        port: 2381
+        scheme: HTTP
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 15
+    name: etcd
+    resources:
+      requests:
+        cpu: 100m
+        ephemeral-storage: 100Mi
+        memory: 100Mi
+    startupProbe:
+      failureThreshold: 24
+      httpGet:
+        host: 127.0.0.1
+        path: /health
+        port: 2381
+        scheme: HTTP
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 15
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/lib/etcd
+      name: etcd-data
+    - mountPath: /etc/kubernetes/pki/etcd
+      name: etcd-certs
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostNetwork: true
+  nodeName: kind01-control-plane
+  preemptionPolicy: PreemptLowerPriority
+  priority: 2000001000
+  priorityClassName: system-node-critical
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    operator: Exists
+  volumes:
+  - hostPath:
+      path: /etc/kubernetes/pki/etcd
+      type: DirectoryOrCreate
+    name: etcd-certs
+  - hostPath:
+      path: /var/lib/etcd
+      type: DirectoryOrCreate
+    name: etcd-data
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-30T07:12:42Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-30T07:13:51Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-30T07:13:51Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-30T07:12:42Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://05f1dcd69e514b03299043155231a75f5b386d193a5c1c7666f6aa53c1bfb977
+    image: k8s.gcr.io/etcd:3.4.13-0
+    imageID: sha256:0369cf4303ffdb467dc219990960a9baa8512a54b0ad9283eaf55bd6c0adb934
+    lastState: {}
+    name: etcd
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2022-10-30T07:12:29Z"
+  hostIP: 172.18.0.2
+  phase: Running
+  podIP: 172.18.0.2
+  podIPs:
+  - ip: 172.18.0.2
+  qosClass: Burstable
+  startTime: "2022-10-30T07:12:42Z"
