@@ -10,18 +10,15 @@ import (
 	"k8s.io/client-go/tools/cache"
 	"reflect"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"time"
 )
 
 func main() {
 
 	config := ctrl.GetConfigOrDie()
-	timeout := time.Duration(60 * time.Second)
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	defer cancel()
+	ctx := context.Background()
 	dynamicClient, err := dynamic.NewForConfig(config)
 	if err != nil {
 		panic(err)
