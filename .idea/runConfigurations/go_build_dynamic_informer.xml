@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build dynamic-informer" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="k8s-examples" />
+    <target name="WSL - Ubuntu-18.042" />
+    <working_directory value="$PROJECT_DIR$" />
+    <envs>
+      <env name="KUBECONFIG" value="/mnt/f/vela/config" />
+    </envs>
+    <kind value="FILE" />
+    <package value="k8s-examples" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/21-dynamic-informer.go" />
+    <method v="2" />
+  </configuration>
+</component>
