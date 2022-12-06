@@ -28,6 +28,7 @@ import (
 	compbasemetrics "k8s.io/component-base/metrics"
 	"k8s.io/component-base/metrics/legacyregistry"
 	"k8s.io/klog/v2"
+	"math"
 	"net/http"
 	"sigs.k8s.io/yaml"
 	"strconv"
@@ -112,7 +113,37 @@ const json2 = `{"envs":[{"JAVA-OPTS":"xmx"}, {"CMB_LOGGING": "xms"}],"age":47}`
 
 var err error
 
+func logn(n, b float64) float64 {
+	return math.Log(n) / math.Log(b)
+}
+
+func humanateBytes(s uint64, base float64, sizes []string) string {
+	if s < 10 {
+		return fmt.Sprintf("%d B", s)
+	}
+	e := math.Floor(logn(float64(s), base))
+	suffix := sizes[int(e)]
+	val := math.Floor(float64(s)/math.Pow(base, e)*10+0.5) / 10
+	f := "%.0f %s"
+	if val < 10 {
+		f = "%.1f %s"
+	}
+
+	return fmt.Sprintf(f, val, suffix)
+}
+
 func main() {
+	str := "512Mi"
+	u, err := humanize.ParseBytes(str)
+	if err != nil {
+		return
+	}
+	s1 := float32(u) / 1024 / 1024 / 1024
+	fmt.Println(s1)
+	s2 := humanize.IBytes(u)
+	fmt.Println(s2)
+	s3 := humanateBytes(u, 1024, []string{"GiB"})
+	fmt.Println(s3)
 
 	parseBytes1, err := humanize.ParseBytes("79G")
 	parseBytes2, err := humanize.ParseBytes("78G")
