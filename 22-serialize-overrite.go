@@ -9,7 +9,7 @@ type StructA struct {
 	B StructB `json:"b.b"`
 }
 type StructB struct {
-	C string `json:"c"`
+	C string `json:"cache"`
 }
 
 func (in *StructA) MarshalJSON() ([]byte, error) {

@@ -5,7 +5,6 @@ go 1.17
 require (
 	cuelang.org/go v0.2.2
 	github.com/google/uuid v1.3.0
-	github.com/jinzhu/gorm v1.9.16
 	github.com/kyokomi/emoji v2.2.4+incompatible
 	github.com/oam-dev/kubevela v1.5.6
 	github.com/pkg/errors v0.9.1
@@ -13,9 +12,12 @@ require (
 	github.com/tidwall/gjson v1.12.1
 	k8s.io/api v0.23.6
 	k8s.io/apimachinery v0.23.6
+	k8s.io/apiserver v0.23.6
 	k8s.io/client-go v0.23.6
 	sigs.k8s.io/controller-runtime v0.11.2
 )
+
+require github.com/golang/snappy v0.0.4 // indirect
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.1.1
@@ -25,7 +27,7 @@ require (
 	//github.com/oam-dev/kubevela v1.4.2
 	github.com/prometheus/client_golang v1.11.0
 	github.com/pyroscope-io/client v0.2.3
-	github.com/robfig/cron/v3 v3.0.0
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/spf13/cast v1.4.1
 	github.com/tidwall/sjson v1.2.4
 	github.com/vrischmann/envconfig v1.3.0
@@ -38,16 +40,16 @@ require (
 )
 
 require (
-    github.com/allegro/bigcache/v3 v3.1.0
+	github.com/VictoriaMetrics/fastcache v1.12.0
+	github.com/allegro/bigcache/v3 v3.1.0
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
-	github.com/cespare/xxhash/v2 v2.1.1 // indirect
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/cockroachdb/apd/v2 v2.0.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/evanphx/json-patch v4.12.0+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/go-logr/logr v1.2.2 // indirect
-	github.com/go-sql-driver/mysql v1.5.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
@@ -55,7 +57,6 @@ require (
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/googleapis/gnostic v0.5.5 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
-	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect
@@ -69,7 +70,7 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.28.0 // indirect
 	github.com/prometheus/procfs v0.6.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/spf13/pflag v1.0.5
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
 	golang.org/x/crypto v0.0.0-20220507011949-2cf3adece122 // indirect
@@ -94,7 +95,7 @@ require (
 )
 
 replace (
-	cloud.google.com/go => cloud.google.com/go v0.90.0
+	//cloud.google.com/go => cloud.google.com/go v0.87.0
 	cloud.google.com/go/compute => cloud.google.com/go/compute v1.7.0
 	cuelang.org/go => github.com/fourierr/cue-0.2.2-fix v0.0.2
 	github.com/docker/cli => github.com/docker/cli v20.10.9+incompatible

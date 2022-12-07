@@ -29,11 +29,11 @@ func main() {
 	c.AddFunc("*/7 * * * * *", func() {
 		log.Println("Run 7s cron")
 	})
-	//inspect(c.Entries())
+	//inspect(cache.Entries())
 
 	// 这是一个使用time包实现的定时器，与cron做对比
 	//t1 := time.NewTimer(time.Second * 10)
-	
+
 	for {
 		select {}
 	}

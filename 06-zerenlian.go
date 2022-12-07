@@ -35,7 +35,7 @@ func (n *Next) SetNext(h Handler) Handler {
 
 // Run 执行
 func (n *Next) Run(c context.Context) (err error) {
-	// 由于go无继承的概念 这里无法执行当前handler的Do,不能 n.Do(c)
+	// 由于go无继承的概念 这里无法执行当前handler的Do,不能 n.Do(cache)
 	if n.nextHandler != nil {
 		// 合成复用下的变种
 		// 执行下一个handler的Do
