@@ -38,6 +38,7 @@ require (
 )
 
 require (
+    github.com/allegro/bigcache/v3 v3.1.0
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
@@ -93,7 +94,8 @@ require (
 )
 
 replace (
-	cloud.google.com/go v0.93.3 => cloud.google.com/go v0.81.0
+	cloud.google.com/go => cloud.google.com/go v0.90.0
+	cloud.google.com/go/compute => cloud.google.com/go/compute v1.7.0
 	cuelang.org/go => github.com/fourierr/cue-0.2.2-fix v0.0.2
 	github.com/docker/cli => github.com/docker/cli v20.10.9+incompatible
 	github.com/docker/docker => github.com/moby/moby v17.12.0-ce-rc1.0.20200618181300-9dc6525e6118+incompatible
