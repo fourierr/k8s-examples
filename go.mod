@@ -40,6 +40,7 @@ require (
 )
 
 require (
+ github.com/allegro/bigcache/v3 v3.1.0
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/NYTimes/gziphandler v1.1.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
