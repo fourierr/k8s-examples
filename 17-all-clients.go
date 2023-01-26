@@ -30,7 +30,7 @@ import (
 func main() {
 
 	// 获取config
-	config, err := clientcmd.BuildConfigFromFlags("", "/mnt/f/vela/config")
+	config, err := clientcmd.BuildConfigFromFlags("", "/mnt/d/wsl/workspace/config")
 	//config, err := clientcmd.BuildConfigFromFlags("", clientcmd.RecommendedHomeFile)
 	if err != nil {
 		panic(err)

@@ -8,6 +8,7 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
 	"github.com/dustin/go-humanize"
+	carbon "github.com/golang-module/carbon/v2"
 	"github.com/pkg/errors"
 	"github.com/robfig/cron/v3"
 	"github.com/spf13/cast"
@@ -113,6 +114,16 @@ const json2 = `{"envs":[{"JAVA-OPTS":"xmx"}, {"CMB_LOGGING": "xms"}],"age":47}`
 var err error
 
 func main() {
+
+	carbon.Now().Between(carbon.Now(), carbon.Now())
+	var prints []func()
+	for _, v := range []int{1, 2, 3} {
+		//v := v
+		prints = append(prints, func() { fmt.Println(v) })
+	}
+	for _, print := range prints {
+		print()
+	}
 
 	parseBytes1, err := humanize.ParseBytes("79G")
 	parseBytes2, err := humanize.ParseBytes("78G")
