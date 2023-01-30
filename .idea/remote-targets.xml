@@ -28,6 +28,19 @@
           </config>
         </ContributedStateBase>
       </target>
+      <target name="WSL - Ubuntu-18.043" type="wsl" uuid="6e7264a1-b10a-405d-8166-cda20711e0e3">
+        <config>
+          <option name="distributionMsId" value="Ubuntu-18.04" />
+          <option name="projectRootOnTarget" value="/mnt/d/goland/GoLand 2022.2.4/jbr/bin&#10;/k8s-examples" />
+        </config>
+        <ContributedStateBase type="GoLanguageRuntime">
+          <config>
+            <option name="goPath" value="/home/fourier/go" />
+            <option name="goRoot" value="/mnt/d/wsl/workspace/go1.18.8/go/bin/go" />
+            <option name="goVersion" value="go1.18.8 linux/amd64" />
+          </config>
+        </ContributedStateBase>
+      </target>
     </targets>
   </component>
 </project>

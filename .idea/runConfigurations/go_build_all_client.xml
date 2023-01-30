@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="go build all-client" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="k8s-examples" />
-    <target name="WSL - Ubuntu-18.04" />
+    <target name="WSL - Ubuntu-18.043" />
     <working_directory value="$PROJECT_DIR$" />
     <envs>
-      <env name="KUBECONFIG" value="/mnt/f/vela/config" />
+      <env name="KUBECONFIG" value="/mnt/d/wsl/workspace/config" />
     </envs>
     <kind value="FILE" />
     <package value="k8s-examples" />
