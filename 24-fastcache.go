@@ -11,7 +11,7 @@ type DataStruct struct {
 	Name string `json:"name"`
 }
 
-var cache = fastcache.New(200 * 1024 * 1024)
+var cache2 = fastcache.New(200 * 1024 * 1024)
 
 func main() {
 
@@ -25,19 +25,19 @@ func main() {
 	if err != nil {
 		return
 	}
-	cache.Set([]byte(key), marshal)
+	cache2.Set([]byte(key), marshal)
 
-	get := cache.Get(nil, []byte(key))
+	get := cache2.Get(nil, []byte(key))
 	newDataStruct := &DataStruct{}
 	err = json.Unmarshal(get, newDataStruct)
 	if err != nil {
 		return
 	}
 	fmt.Println(newDataStruct)
-	if cache.Has([]byte(key)) {
-		cache.Del([]byte(key))
+	if cache2.Has([]byte(key)) {
+		cache2.Del([]byte(key))
 	}
-	getRetry := cache.Get(nil, []byte(key))
+	getRetry := cache2.Get(nil, []byte(key))
 	fmt.Println(getRetry)
 
 }

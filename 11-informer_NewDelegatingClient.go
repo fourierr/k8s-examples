@@ -12,7 +12,7 @@ func main() {
 
 	var cfg *rest.Config
 	// todo 初始化cfg
-	cache, err := cache.New(cfg, cache.Options{})
+	cache1, err := cache.New(cfg, cache.Options{})
 	if err != nil {
 		panic(err.Error())
 	}
@@ -22,7 +22,7 @@ func main() {
 	}
 	// todo 使用Expect(err).NotTo(HaveOccurred())
 	dReader, err := pkgClient.NewDelegatingClient(pkgClient.NewDelegatingClientInput{
-		CacheReader:       cache,
+		CacheReader:       cache1,
 		Client:            client,
 		CacheUnstructured: false,
 	})
