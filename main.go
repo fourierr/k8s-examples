@@ -26,25 +26,17 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
-	compbasemetrics "k8s.io/component-base/metrics"
 	"k8s.io/component-base/metrics/legacyregistry"
 	"k8s.io/klog/v2"
 	"math"
 	"net/http"
 	"sigs.k8s.io/yaml"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
 )
 
 var registerMetrics sync.Once
-
-var metrics = []compbasemetrics.Registerable{
-	ocmProxiedRequestsByResourceTotal,
-	ocmProxiedRequestsByClusterTotal,
-	ocmProxiedClusterEscalationRequestDurationHistogram,
-}
 
 const (
 	namespace = "ocm"
@@ -63,52 +55,6 @@ const (
 var (
 	requestDurationSecondsBuckets = []float64{0, 0.005, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 30}
 )
-
-var (
-	ocmProxiedRequestsByResourceTotal = compbasemetrics.NewCounterVec(
-		&compbasemetrics.CounterOpts{
-			Namespace:      namespace,
-			Subsystem:      subsystem,
-			Name:           "proxied_resource_requests_by_resource_total",
-			Help:           "Number of requests proxied requests",
-			StabilityLevel: compbasemetrics.ALPHA,
-		},
-		[]string{proxiedResource, proxiedVerb, code},
-	)
-	ocmProxiedRequestsByClusterTotal = compbasemetrics.NewCounterVec(
-		&compbasemetrics.CounterOpts{
-			Namespace:      namespace,
-			Subsystem:      subsystem,
-			Name:           "proxied_requests_by_cluster_total",
-			Help:           "Number of requests proxied requests",
-			StabilityLevel: compbasemetrics.ALPHA,
-		},
-		[]string{proxiedCluster, code},
-	)
-	ocmProxiedClusterEscalationRequestDurationHistogram = compbasemetrics.NewHistogramVec(
-		&compbasemetrics.HistogramOpts{
-			Namespace:      namespace,
-			Subsystem:      subsystem,
-			Name:           "cluster_escalation_access_review_duration_seconds",
-			Help:           "Cluster escalation access review time cost",
-			Buckets:        requestDurationSecondsBuckets,
-			StabilityLevel: compbasemetrics.ALPHA,
-		},
-		[]string{success},
-	)
-)
-
-func RecordProxiedRequestsByResource(resource string, verb string, code int) {
-	ocmProxiedRequestsByResourceTotal.
-		WithLabelValues(resource, verb, strconv.Itoa(code)).
-		Inc()
-}
-
-func RecordProxiedRequestsByCluster(cluster string, code int) {
-	ocmProxiedRequestsByClusterTotal.
-		WithLabelValues(cluster, strconv.Itoa(code)).
-		Inc()
-}
 
 const json2 = `{"envs":[{"JAVA-OPTS":"xmx"}, {"CMB_LOGGING": "xms"}],"age":47}`
 
@@ -133,7 +79,20 @@ func humanateBytes(s uint64, base float64, sizes []string) string {
 	return fmt.Sprintf(f, val, suffix)
 }
 
+var testSlice []int
+
 func main() {
+	for i := 0; i < 1000; i++ {
+		tmp := i
+		go func() {
+			testSlice = append(testSlice, tmp)
+		}()
+	}
+	time.Sleep(30 * time.Second)
+	for _, val := range testSlice {
+		//fmt.Printf("idx:%d val:%d\n", idx, val)
+		fmt.Printf(" val:%d\n", val)
+	}
 	str := "512Mi"
 	u, err := humanize.ParseBytes(str)
 	if err != nil {
@@ -208,26 +167,6 @@ func main() {
 		return
 	}
 	fmt.Println(set)
-
-	// 为 Go 应用添加 Prometheus 自定义监控指标
-	registerMetrics.Do(func() {
-		for _, metric := range metrics {
-			legacyregistry.MustRegister(metric)
-		}
-	})
-
-	RecordProxiedRequestsByCluster("aa", 001)
-	RecordProxiedRequestsByCluster("bb", 002)
-	//temp := prometheus.NewGauge(prometheus.GaugeOpts{
-	//	Name: "home_temperature_celsius",
-	//	Help: "The current temperature in degrees Celsius.",
-	//})
-	//
-	//// 在默认的注册表中注册该指标
-	//prometheus.MustRegister(temp)
-	//
-	//// 设置 gauge 的值为 39
-	//temp.Set(39)
 
 	// 暴露指标
 	//http.Handle("/metrics", promhttp.Handler())
